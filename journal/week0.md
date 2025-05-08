@@ -44,7 +44,7 @@ aws budgets create-budget \
     --account-id 533267015091 \
     --budget file://aws/json/budget.json \
     --notifications-with-subscribers file://aws/json/budget-notifications-with-subscribers.json
-``` 
+```` 
 This command creates budget after each run, each budget after 2, costs a dollar. Delete budget:
 ````
 aws budgets delete-budget --account-id 533267015091 --budget-name "Example Tag Budget"
