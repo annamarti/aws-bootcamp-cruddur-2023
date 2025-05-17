@@ -41,8 +41,38 @@ unset BACKEND_URL="*"
 4. Test Server
 ```
 curl -X GET http://localhost:4567/api/activities/home -H "Accept: application/json" -H "Content-Type: application/json"
-Or open url and add 'api/activities/home' at the end, should recieve json file.
 ```
+Or open url and add 'api/activities/home' at the end, should recieve json file.
+
+## Dockerize frontend
+1. Build fron
+```
+cd frontend-react-js
+npm i
+cd ..
+```
+2. Add Dcokerfile:
+```
+FROM node:16.18
+
+ENV PORT=3000
+
+COPY . /frontend-react-js
+WORKDIR /frontend-react-js
+RUN npm install
+EXPOSE ${PORT}
+CMD ["npm", "start"]
+```
+
+3. Build Image (from root, not from frontend):
+```
+docker build -t frontend-react-js ./frontend-react-js
+```
+4. Run Image
+```
+docker run -p 3000:3000 -d frontend-react-js
+```
+5. Test frontend
 
 ## Notes
 Add env vars:
