@@ -4,6 +4,11 @@ services:
     environment:
       FRONTEND_URL: "https://3000-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
       BACKEND_URL: "https://4567-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
+      HONEYCOMB_API_KEY: "F1fIE9Nlc4ge4qe6QP8IIA"
+      HONEYCOMB_SERVICE_NAME: "Cruddur"
+      OTEL_EXPORTER_OTLP_ENDPOINT: "https://api.honeycomb.io"
+      OTEL_EXPORTER_OTLP_HEADERS: "x-honeycomb-team=${HONEYCOMB_API_KEY}"
+      OTEL_SERVICE_NAME: "${HONEYCOMB_SERVICE_NAME}"
     build: ./backend-flask
     ports:
       - "4567:4567"
