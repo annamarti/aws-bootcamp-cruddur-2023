@@ -14,6 +14,8 @@ from services.messages import *
 from services.create_message import *
 from services.show_activity import *
 
+from flask_swagger_ui import get_swaggerui_blueprint
+
 from aws_xray_sdk.core import xray_recorder
 from aws_xray_sdk.ext.flask.middleware import XRayMiddleware
 
@@ -24,6 +26,7 @@ from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExport
 from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.trace.export import BatchSpanProcessor
 
+app = Flask(__name__)
 xray_url = os.getenv("AWS_XRAY_URL")
 xray_recorder.configure(service='Cruddur', dynamic_naming=xray_url)
 XRayMiddleware(app, xray_recorder)
@@ -36,12 +39,24 @@ trace.set_tracer_provider(provider)
 tracer = trace.get_tracer(__name__)
 
 # Initialize automatic instrumentation with Flask
-app = Flask(__name__)
 FlaskInstrumentor().instrument_app(app)
 RequestsInstrumentor().instrument()
 
+# Swagger UI config
+SWAGGER_URL = '/docs'  # URL path where Swagger UI will be available
+API_URL = '/static/openapi-3.0.yml'  # Public path to your OpenAPI file
 
-app = Flask(__name__)
+swaggerui_blueprint = get_swaggerui_blueprint(
+    SWAGGER_URL,
+    API_URL,
+    config={  # optional
+        'app_name': "Backend Flask API"
+    }
+)
+
+app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
+
+
 frontend = os.getenv('FRONTEND_URL')
 backend = os.getenv('BACKEND_URL')
 origins = [frontend, backend]
