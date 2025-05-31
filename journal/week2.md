@@ -29,10 +29,13 @@ xray_recorder.configure(service='Cruddur', dynamic_naming=xray_url)
 XRayMiddleware(app, xray_recorder)
 ```
 ```
-FLASK_ADDRESS="https://4567-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
-aws xray create-group \
-   --group-name "Cruddur" \
-   --filter-expression "service(\"$FLASK_ADDRESS\") {fault OR error}"
+FLASK_ADDRESS="https://4567-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}" # Gitpod env
+$env:FLASK_ADDRESS="http://localhost:4567" # Local env
+```
+```cmd
+aws xray create-group ^
+  --group-name "Cruddur" ^
+  --filter-expression "service(\"mydomain.com\") AND (fault OR error)"
 ```
 ```
 aws xray create-sampling-rule --cli-input-json file://aws/json/xray.json
@@ -44,6 +47,12 @@ aws xray create-sampling-rule --cli-input-json file://aws/json/xray.json
 ```
 wget https://s3.us-east-2.amazonaws.com/aws-xray-assets.us-east-2/xray-daemon/aws-xray-daemon-3.x.deb
 sudo dpkg -i **.deb
+```
+
+Remove:
+```aidl
+aws xray delete-group --group-name "Cruddur"
+aws xray delete-sampling-rule --rule-name "SamplingRuleRecords"
 ```
 #### Add Deamon Service to Docker Compose
 ```

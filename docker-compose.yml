@@ -13,7 +13,7 @@ services:
       # HONEYCOMB_SERVICE_NAME: "Cruddur"
       OTEL_EXPORTER_OTLP_ENDPOINT: "https://api.honeycomb.io"
       OTEL_EXPORTER_OTLP_HEADERS: "x-honeycomb-team=F1fIE9Nlc4ge4qe6QP8IIA"
-      OTEL_SERVICE_NAME: "Cruddur"
+      OTEL_SERVICE_NAME: "backend-flask"
     build: ./backend-flask
     ports:
       - "4567:4567"
@@ -51,16 +51,16 @@ services:
       - '5432:5432'
     volumes: 
       - db:/var/lib/postgresql/data
-  xray-daemon:
-    image: "amazon/aws-xray-daemon"
-    environment:
-      AWS_ACCESS_KEY_ID: "${AWS_ACCESS_KEY_ID}"
-      AWS_SECRET_ACCESS_KEY: "${AWS_SECRET_ACCESS_KEY}"
-      AWS_REGION: "ca-central-1"
-    command:
-      - "xray -o -b xray-daemon:2000"
-    ports:
-     - 2000:2000/udp
+#  xray-daemon:
+#    image: "amazon/aws-xray-daemon"
+#    environment:
+#      AWS_ACCESS_KEY_ID: "${AWS_ACCESS_KEY_ID}"
+#      AWS_SECRET_ACCESS_KEY: "${AWS_SECRET_ACCESS_KEY}"
+#      AWS_REGION: "ca-central-1"
+#    command:
+#      - "xray -o -b xray-daemon:2000"
+#    ports:
+#     - 2000:2000/udp
 # the name flag is a hack to change the default prepend folder
 # name when outputting the image names
 networks: 
