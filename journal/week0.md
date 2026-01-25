@@ -7,7 +7,7 @@ https://lucid.app/lucidchart/a3336ef5-307d-40d1-b8da-862a6936b0dc/edit?invitatio
 ````
 https://github.com/ExamProCo/aws-bootcamp-cruddur-2023
 ````
-3. Create Gitpod account and add gitpod plugin to browser: 
+3. Create Gitpod account and add gitpod plugin to browser(login gitpod classik, new one is not free): 
 ````
 https://gitpod.io/
 ````
